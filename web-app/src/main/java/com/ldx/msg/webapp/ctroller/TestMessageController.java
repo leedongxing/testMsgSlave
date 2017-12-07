@@ -7,6 +7,9 @@
 
 package com.ldx.msg.webapp.ctroller;
 
+import com.ldx.msg.webservice.mq.NativeAmqCunsumer;
+import com.ldx.msg.webservice.mq.SpringAmqCunsumer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -23,10 +26,34 @@ import javax.servlet.http.HttpServletResponse;
  */
 
 @Controller
-@RequestMapping(value = "/send")
+@RequestMapping(value = "/mq")
 public class TestMessageController {
-    @RequestMapping(value = "/")
-    public String item(HttpServletRequest request, HttpServletResponse response) {
-        return "send";
+    @Autowired
+    private NativeAmqCunsumer nativeAmqCunsumer;
+    @Autowired
+    private SpringAmqCunsumer springAmqCunsumer;
+
+    @RequestMapping(value = "/native/p2p/")
+    public ModelAndView nativeP2p(HttpServletRequest request, HttpServletResponse response) {
+        ModelAndView view = new ModelAndView("send");
+        String msg = nativeAmqCunsumer.recive();
+        view.addObject("msg", msg);
+        return view;
+    }
+
+    @RequestMapping(value = "/native/p2p/topic")
+    public ModelAndView nativeP2pTopic(HttpServletRequest request, HttpServletResponse response) {
+        ModelAndView view = new ModelAndView("send");
+        String msg = nativeAmqCunsumer.reciveTopic();
+        view.addObject("msg", msg);
+        return view;
+    }
+
+    @RequestMapping(value = "/spring/p2p/")
+    public ModelAndView springP2p(HttpServletRequest request, HttpServletResponse response) {
+        ModelAndView view = new ModelAndView("send");
+        String msg = springAmqCunsumer.recive();
+        view.addObject("msg", msg);
+        return view;
     }
 }
