@@ -5,13 +5,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.context.annotation.ImportResource;
 
 
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableEurekaClient
-//@EnableFeignClients
+@EnableFeignClients
 //@ConditionalOnClass({ VelocityEngine.class, VelocityEngineFactory.class })
 //@EnableAsync
 @ImportResource({"classpath*:spring-all.xml"})
